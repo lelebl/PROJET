@@ -2,7 +2,7 @@
 package Vue;
 
 import Modele.Connexion;
-//import Vue.Accueil.AccueilPan;
+import Vue.Accueil.AccueilPan;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
