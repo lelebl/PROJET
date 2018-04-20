@@ -9,6 +9,7 @@ package Modele;
  * Librairies importées
  */
 import Modele.BDD.Chambre;
+import Modele.BDD.Docteur;
 import Modele.BDD.Hospitalisation;
 import Modele.BDD.Infirmier;
 import Modele.BDD.Maladie;
@@ -523,6 +524,43 @@ public class Connexion {
         }
         
         return mal;
+    }
+    public ArrayList<Docteur> getDocteur(Connexion c)throws SQLException{
+        // rÃ©cupÃ©ration de l'ordre de la requete
+        rset = stmt.executeQuery("select * from docteur");
+
+        // rÃ©cupÃ©ration du rÃ©sultat de l'ordre
+        rsetMeta = rset.getMetaData();
+        
+        // calcul du nombre de colonnes du resultat
+        int nbColonne = rsetMeta.getColumnCount();
+        
+        // création du tableau
+        ArrayList<Docteur> docteurs=new ArrayList<>();
+        
+        rset.last();
+        int nbr_instance=rset.getRow();
+        String spe="";
+        rset.first();
+        int no=0;
+        int n=0;
+        while(rset.next()){
+            if(n==0){
+                rset.first();
+            }
+            for(int i=nbColonne;i>0;i--){//on parcour les colonne
+                if(rsetMeta.getColumnLabel(i).contains("specialite")){
+                    spe=(rset.getObject(i).toString());
+                }
+                else if(rsetMeta.getColumnLabel(i).contains("numero")){
+                    no=Integer.parseInt(rset.getObject(i).toString());
+                }
+            }
+            docteurs.add(new Docteur(no,spe,c));
+            n++;
+        }
+        
+        return docteurs;
     }
     
 }
