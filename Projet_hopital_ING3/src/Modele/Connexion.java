@@ -11,6 +11,7 @@ package Modele;
 import Modele.BDD.Hospitalisation;
 import Modele.BDD.Infirmier;
 import Modele.BDD.Service;
+import Modele.BDD.Soigne;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -373,6 +374,52 @@ public class Connexion {
         }
         
         return ser;
+    }
+    
+    public ArrayList<Soigne> getSoigne(Connexion c)throws SQLException{
+        // rÃ©cupÃ©ration de l'ordre de la requete
+        rset = stmt.executeQuery("select * from soigne");
+
+        // rÃ©cupÃ©ration du rÃ©sultat de l'ordre
+        rsetMeta = rset.getMetaData();
+        
+        // calcul du nombre de colonnes du resultat
+        int nbColonne = rsetMeta.getColumnCount();
+        
+        // création du tableau
+        ArrayList<Soigne> soi=new ArrayList<>();
+        
+        rset.last();
+        int nbr_instance=rset.getRow();
+        rset.first();
+        int nod=0;
+        int nom=0;
+        int n=0;
+        System.out.println("SERVICE:");
+        while(rset.next()){
+            if(n==0){
+                rset.first();
+            }
+            for(int i=nbColonne;i>0;i--){//on parcour les colonne
+                
+                if(rsetMeta.getColumnLabel(i).contains("no_docteur")){
+                    if(rset.getObject(i).toString()!=null){
+                        nod=Integer.parseInt(rset.getObject(i).toString());
+                    }
+                    else nod=0;
+                }
+                else if(rsetMeta.getColumnLabel(i).contains("no_malade")){
+                    if(rset.getObject(i).toString()!=null){
+                        nom=Integer.parseInt(rset.getObject(i).toString());
+                    }
+                    else nom=0;
+                }
+            }
+            soi.add(new Soigne(nod, nom,c));
+            n++;
+        }
+        
+        return soi;
     }
     
     
