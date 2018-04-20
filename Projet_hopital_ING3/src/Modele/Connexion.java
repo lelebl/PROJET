@@ -11,6 +11,7 @@ package Modele;
 import Modele.BDD.Chambre;
 import Modele.BDD.Hospitalisation;
 import Modele.BDD.Infirmier;
+import Modele.BDD.Maladie;
 import Modele.BDD.Service;
 import Modele.BDD.Soigne;
 import java.sql.*;
@@ -478,6 +479,50 @@ public class Connexion {
         
         return chambres;
     }
-    
+    public ArrayList<Maladie> getMaladie(Connexion c)throws SQLException{
+        // rÃ©cupÃ©ration de l'ordre de la requete
+        rset = stmt.executeQuery("select * from chambre");
+
+        // rÃ©cupÃ©ration du rÃ©sultat de l'ordre
+        rsetMeta = rset.getMetaData();
+        
+        // calcul du nombre de colonnes du resultat
+        int nbColonne = rsetMeta.getColumnCount();
+        
+        // création du tableau
+        ArrayList<Maladie> mal= new ArrayList<>();
+        
+        rset.last();
+        int nbr_instance=rset.getRow();
+        String nom="";
+        String localisation="";
+        String specialite="";
+        rset.first();
+        int stade=0;
+        int n=0;
+        while(rset.next()){
+            if(n==0){
+                rset.first();
+            }
+            for(int i=nbColonne;i>0;i--){//on parcour les colonne
+                if(rsetMeta.getColumnLabel(i).contains("localisation")){
+                    localisation=(rset.getObject(i).toString());
+                }
+                else if(rsetMeta.getColumnLabel(i).contains("specialite")){
+                    specialite=(rset.getObject(i).toString());
+                }
+                else if(rsetMeta.getColumnLabel(i).contains("nom")){
+                    nom=(rset.getObject(i).toString());
+                }
+                else if(rsetMeta.getColumnLabel(i).contains("stade")){
+                    stade=Integer.parseInt(rset.getObject(i).toString());
+                }
+            }
+            mal.add(new Maladie(nom,localisation,stade,specialite,c));
+            n++;
+        }
+        
+        return mal;
+    }
     
 }
