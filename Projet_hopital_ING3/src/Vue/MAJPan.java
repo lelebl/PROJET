@@ -8,8 +8,12 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -921,7 +925,77 @@ public class MAJPan extends MyPanel{
                 }
             }
     }
-    
+     /**
+     * LISTENERS
+     */
+    class ButtonListener implements ActionListener{        
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(e.getSource()==valider){// si on clique sur valider
+                if(currentType=="Ajouter"){
+                    saisie=new String[textAjout.length];
+                    for(int i=0; i<textAjout.length;i++){
+                        saisie[i]=textAjout[i].getText(); //on récupère les donnée saisie;
+                    }
+                    try{
+                    ajout();
+                    }catch(SQLException exc){
+                        
+                        System.out.println("Impossible de faire l'ajout: "+exc);
+                    }
+                    for(int i=0; i<textAjout.length;i++){
+                        textAjout[i].setText(""); 
+                        saisie[i]="";
+                    }
+                }
+                else if(currentType=="Supprimer"){
+                    int indice=listSupp.getSelectedIndex();
+                    try {
+                        supprimer(indice);
+                    } catch (SQLException ex) {
+                        System.out.println("Suppression echouée: "+ex);
+                    }
+                    setPaneSupprimer();
+                    repaint();
+                }
+                else {
+                    try {
+                        int indice=listSupp.getSelectedIndex();
+                        modifier(indice);
+                        setPaneModifier();
+                        for(int i=0; i<textAjout.length;i++){ 
+                            textAjout[i].setText("");
+                        }
+                        repaint();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(MAJPan.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        }
+        
+    }
+    class TableListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            for(int i=0; i<boutons.length;i++){//on parcourt les boutons
+                if(e.getSource()==boutons[i]){//on repère quel bouton a été cliqué
+                   currentTable=boutons[i].getText();
+                   if(currentType=="Ajouter"){//ajouter
+                       setPaneAjout();
+                   }
+                   else if(currentType=="Supprimer"){//supprimer
+                       setPaneSupprimer();
+                   }
+                   else{// modifier
+                       setPaneModifier();
+                   }
+                }
+            }
+        }
+        
+        
+    }
     
     
 }
