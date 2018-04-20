@@ -13,6 +13,7 @@ import Modele.BDD.Docteur;
 import Modele.BDD.Employe;
 import Modele.BDD.Hospitalisation;
 import Modele.BDD.Infirmier;
+import Modele.BDD.Malade;
 import Modele.BDD.Maladie;
 import Modele.BDD.Service;
 import Modele.BDD.Soigne;
@@ -611,6 +612,63 @@ public class Connexion {
         }
         
         return employes;
+    }
+      public ArrayList<Malade> getMalade(Connexion c)throws SQLException{
+        // rÃ©cupÃ©ration de l'ordre de la requete
+        rset = stmt.executeQuery("select * from malade");
+
+        // rÃ©cupÃ©ration du rÃ©sultat de l'ordre
+        rsetMeta = rset.getMetaData();
+        
+        // calcul du nombre de colonnes du resultat
+        int nbColonne = rsetMeta.getColumnCount();
+        
+        // création du tableau
+        ArrayList<Malade> mal=new ArrayList<>();
+        
+        rset.last();
+        int nbr_instance=rset.getRow();
+        rset.first();
+        String prenom="";
+        String adresse="";
+        String tel="";
+        String mutuelle="";
+        String nom="";
+        String maladie="";
+        int numero=0;
+        int n=0;
+        while(rset.next()){
+            if(n==0){
+                rset.first();
+            }
+            for(int i=nbColonne;i>0;i--){//on parcour les colonne
+                if(rsetMeta.getColumnLabel(i).contains("numero")){
+                    numero=Integer.parseInt(rset.getObject(i).toString());
+                }
+                else if(rsetMeta.getColumnLabel(i).contains("prenom")){
+                    prenom=(rset.getObject(i).toString());
+                }
+                else if(rsetMeta.getColumnLabel(i).contains("nom")){
+                    nom=(rset.getObject(i).toString());
+                }
+                else if(rsetMeta.getColumnLabel(i).contains("adresse")){
+                    adresse=(rset.getObject(i).toString());
+                }
+                else if(rsetMeta.getColumnLabel(i).contains("tel")){
+                    tel=(rset.getObject(i).toString());
+                }
+                else if(rsetMeta.getColumnLabel(i).contains("mutuelle")){
+                    mutuelle=(rset.getObject(i).toString());
+                }
+                /*else if(rsetMeta.getColumnLabel(i).contains("maladie")){
+                    maladie=(rset.getObject(i).toString());
+                }*/
+            }
+            mal.add(new Malade(numero,nom,prenom,adresse,tel,mutuelle, maladie,c));
+            n++;
+        }
+        
+        return mal;
     }
     
 }
