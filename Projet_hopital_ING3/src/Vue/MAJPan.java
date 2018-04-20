@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.sql.SQLException;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -115,6 +116,227 @@ public class MAJPan extends MyPanel{
     public void setTitle(String t){
         currentType=t;
         titre.setText(currentType);
+    }
+    /**
+     * SUPPRIMER
+     */
+    public void setPaneSupprimer(){
+        pan.removeAll();
+        Object[] liste= new Object[0];
+        
+        if(currentTable.equals("chambre")){
+            liste= new Object[myData.chambres.size()];
+            for(int i=0;i<myData.chambres.size();i++){
+                liste[i]=myData.chambres.get(i).toString();
+            }
+        }
+        else if(currentTable.equals("docteur")){
+            liste= new Object[myData.docteurs.size()];
+            for(int i=0;i<myData.docteurs.size();i++){
+                liste[i]=myData.docteurs.get(i).toString();
+            }
+        }
+        else if(currentTable.equals("employe")){
+            liste= new Object[myData.employes.size()];
+            for(int i=0;i<myData.employes.size();i++){
+                liste[i]=myData.employes.get(i).toString();
+            }
+        }
+        else if(currentTable.equals("hospitalisation")){
+            liste= new Object[myData.hospitalisations.size()];
+            for(int i=0;i<myData.hospitalisations.size();i++){
+                liste[i]=myData.hospitalisations.get(i).toString();
+            }
+        }
+        else if(currentTable.equals("infirmier")){
+            liste= new Object[myData.infirmiers.size()];
+            for(int i=0;i<myData.infirmiers.size();i++){
+                liste[i]=myData.infirmiers.get(i).toString();
+            }
+        }
+        else if(currentTable.equals("malade")){
+            liste= new Object[myData.malades.size()];
+           for(int i=0;i<myData.malades.size();i++){
+                liste[i]=myData.malades.get(i).toString();
+            }
+        }
+        else if(currentTable.equals("maladie")){
+            liste= new Object[myData.maladies.size()];
+            for(int i=0;i<myData.maladies.size();i++){
+                liste[i]=myData.maladies.get(i).toString();
+            }
+        }
+        else if(currentTable.equals("service")){
+            liste= new Object[myData.services.size()];
+            for(int i=0;i<myData.services.size();i++){
+                liste[i]=myData.services.get(i).toString();
+            }
+        }
+        else if(currentTable.equals("soigne")){
+            liste= new Object[myData.soignes.size()];
+            for(int i=0;i<myData.soignes.size();i++){
+                liste[i]=myData.soignes.get(i).toString();
+            }
+        }
+        listSupp= new JComboBox(liste);
+        listSupp.setLocation(pan.getX(), pan.getY()+100);
+        listSupp.setFont(new Font("Times New Roman", Font.BOLD,20));
+        listSupp.setSize(new Dimension(800, 40));
+        listSupp.setBackground(new Color(255,255,255));
+        pan.add(listSupp);
+        
+        valider= new JButton();
+        valider.setBackground(Color.BLUE);
+        valider.setFont(new Font("Times New Roman", Font.BOLD,30));
+        valider.setLocation(pan.getX(),pan.getY()+500);
+        valider.setSize(200,50);
+        valider.addActionListener(new ButtonListener());
+        valider.setText(currentType);
+        pan.add(valider);
+        
+        this.repaint();
+    }
+    public void supprimer(int indice) throws SQLException{
+        /**
+         * Suppression dans la BDD
+         */
+        if(currentTable.equals("chambre")){
+            boolean ok=myData.chambres.get(indice).supprimer();
+            if(ok){
+                System.out.println("Suppression réussie");
+                errorInfo.showMessageDialog(null,"Suppression de la chambre effectuée", "Suppression", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                System.out.println("Supression échouée");
+                errorInfo.showMessageDialog(null,"Suppression de la chambre échouée", "Suppression", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        else if(currentTable.equals("docteur")){
+            boolean ok=myData.docteurs.get(indice).supprimer();
+            if(ok){
+                System.out.println("Suppression réussie");
+                errorInfo.showMessageDialog(null,"Suppression du docteur effectuée", "Suppression", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                System.out.println("Supression échouée");
+                errorInfo.showMessageDialog(null,"Suppression du docteur échouée", "Suppression", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        else if(currentTable.equals("employe")){
+            boolean ok=myData.employes.get(indice).supprimer();
+            if(ok){
+                System.out.println("Suppression réussie");
+                errorInfo.showMessageDialog(null,"Suppression de l'employé effectuée", "Suppression", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                System.out.println("Supression échouée");
+                errorInfo.showMessageDialog(null,"Suppression de l'employé échouée", "Suppression", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        else if(currentTable.equals("hospitalisation")){
+            boolean ok=myData.hospitalisations.get(indice).supprimer();
+            if(ok){
+                System.out.println("Suppression réussie");
+                errorInfo.showMessageDialog(null,"Suppression de l'hospitalisation effectuée", "Suppression", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                System.out.println("Supression échouée");
+                errorInfo.showMessageDialog(null,"Suppression de l'hospitalisation échouée", "Suppression", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        else if(currentTable.equals("infirmier")){
+            boolean ok=myData.infirmiers.get(indice).supprimer();
+            if(ok){
+                System.out.println("Suppression réussie");
+                errorInfo.showMessageDialog(null,"Suppression de l'infirmier effectuée", "Suppression", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                System.out.println("Supression échouée");
+                errorInfo.showMessageDialog(null,"Suppression de l'infirmier échouée", "Suppression", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        else if(currentTable.equals("malade")){
+            boolean ok=myData.malades.get(indice).supprimer();
+            if(ok){
+                System.out.println("Suppression réussie");
+                errorInfo.showMessageDialog(null,"Suppression du malade effectuée", "Suppression", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                System.out.println("Supression échouée");
+                errorInfo.showMessageDialog(null,"Suppression du malade échouée", "Suppression", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        else if(currentTable.equals("maladie")){
+            boolean ok=myData.maladies.get(indice).supprimer();
+            if(ok){
+                System.out.println("Suppression réussie");
+                errorInfo.showMessageDialog(null,"Suppression de la maladie effectuée", "Suppression", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                System.out.println("Supression échouée");
+                errorInfo.showMessageDialog(null,"Suppression de la maladie échouée", "Suppression", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        else if(currentTable.equals("service")){
+            boolean ok=myData.services.get(indice).supprimer();
+            if(ok){
+                System.out.println("Suppression réussie");
+                errorInfo.showMessageDialog(null,"Suppression du service effectuée", "Suppression", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                System.out.println("Supression échouée");
+                errorInfo.showMessageDialog(null,"Suppression du service échouée", "Suppression", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        else if(currentTable.equals("soigne")){
+            boolean ok=myData.soignes.get(indice).supprimer();
+            if(ok){
+                System.out.println("Suppression réussie");
+                errorInfo.showMessageDialog(null,"Suppression du soin effectuée", "Suppression", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                System.out.println("Supression échouée");
+                errorInfo.showMessageDialog(null,"Suppression du soin échouée", "Suppression", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        
+        /**
+         * Suppression dans les table
+         */
+        if( currentTable!=null) { 
+            System.out.println(currentTable);
+            switch (currentTable) {
+                case "chambre":
+                    myData.chambres.remove(indice);
+                    break;
+                case "docteur":
+                    myData.docteurs.remove(indice);
+                    break;
+                case "employe":
+                    myData.employes.remove(indice);
+                    break;
+                case "hospitalisation":
+                    myData.hospitalisations.remove(indice);
+                    break;
+                case "infirmier":
+                    myData.infirmiers.remove(indice);
+                    break;
+                case "malade":
+                    myData.malades.remove(indice);
+                    break;
+                case "maladie":
+                    myData.maladies.remove(indice);
+                    break;
+                case "service":
+                    myData.services.remove(indice);
+                    break;
+                case "soigne":
+                    myData.soignes.remove(indice);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
     
     
