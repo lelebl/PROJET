@@ -10,6 +10,7 @@ package Modele;
  */
 import Modele.BDD.Hospitalisation;
 import Modele.BDD.Infirmier;
+import Modele.BDD.Service;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -325,7 +326,54 @@ public class Connexion {
     }
     
     
-    
+    public ArrayList<Service> getService(Connexion c)throws SQLException{
+        // rÃ©cupÃ©ration de l'ordre de la requete
+        rset = stmt.executeQuery("select * from service");
+
+        // rÃ©cupÃ©ration du rÃ©sultat de l'ordre
+        rsetMeta = rset.getMetaData();
+        
+        // calcul du nombre de colonnes du resultat
+        int nbColonne = rsetMeta.getColumnCount();
+        
+        // création du tableau
+        ArrayList<Service> ser=new ArrayList<>();
+        
+        rset.last();
+        int nbr_instance=rset.getRow();
+        rset.first();
+        char batiment=0;
+        int directeur=0;
+        String nom="";
+        String code="";
+        int n=0;
+        System.out.println("SERVICE:");
+        while(rset.next()){
+            if(n==0){
+                rset.first();
+            }
+            for(int i=nbColonne;i>0;i--){//on parcour les colonne
+                
+                if(rsetMeta.getColumnLabel(i).contains("code")){
+                    code=(rset.getObject(i).toString());
+                }
+                else if(rsetMeta.getColumnLabel(i).contains("nom")){
+                    nom=(rset.getObject(i).toString());
+                }
+                else if(rsetMeta.getColumnLabel(i).contains("batiment")){
+                    String s=(rset.getObject(i).toString());
+                    batiment=s.charAt(0);
+                }
+                else if(rsetMeta.getColumnLabel(i).contains("directeur")){
+                    directeur=Integer.parseInt(rset.getObject(i).toString());
+                }
+            }
+            ser.add(new Service(code,nom,batiment,directeur,c));
+            n++;
+        }
+        
+        return ser;
+    }
     
     
 }
