@@ -10,6 +10,7 @@ package Modele;
  */
 import Modele.BDD.Chambre;
 import Modele.BDD.Docteur;
+import Modele.BDD.Employe;
 import Modele.BDD.Hospitalisation;
 import Modele.BDD.Infirmier;
 import Modele.BDD.Maladie;
@@ -561,6 +562,55 @@ public class Connexion {
         }
         
         return docteurs;
+    }
+     public ArrayList<Employe> getEmploye(Connexion c)throws SQLException{
+        // rÃ©cupÃ©ration de l'ordre de la requete
+        rset = stmt.executeQuery("select * from employe");
+
+        // rÃ©cupÃ©ration du rÃ©sultat de l'ordre
+        rsetMeta = rset.getMetaData();
+        
+        // calcul du nombre de colonnes du resultat
+        int nbColonne = rsetMeta.getColumnCount();
+        
+        // création du tableau
+        ArrayList<Employe> employes = new ArrayList<>();
+        
+        rset.last();
+        int nbr_instance=rset.getRow();
+        rset.first();
+        String nom="";
+        String prenom="";
+        String adresse="";
+        String tel="";
+        int no=0;
+        int n=0;
+        while(rset.next()){
+            if(n==0){
+                rset.first();
+            }
+            for(int i=nbColonne;i>0;i--){//on parcour les colonne
+                if(rsetMeta.getColumnLabel(i).contains("tel")){
+                    tel=(rset.getObject(i).toString());
+                }
+                else if(rsetMeta.getColumnLabel(i).contains("numero")){
+                    no=Integer.parseInt(rset.getObject(i).toString());
+                }
+                else if(rsetMeta.getColumnLabel(i).contains("adresse")){
+                    adresse=(rset.getObject(i).toString());
+                }
+                else if(rsetMeta.getColumnLabel(i).contains("nom")){
+                    nom=(rset.getObject(i).toString());
+                }
+                else if(rsetMeta.getColumnLabel(i).contains("prenom")){
+                    prenom=(rset.getObject(i).toString());
+                }
+            }
+            employes.add( new Employe(no,nom,prenom,adresse,tel,c));
+            n++;
+        }
+        
+        return employes;
     }
     
 }
