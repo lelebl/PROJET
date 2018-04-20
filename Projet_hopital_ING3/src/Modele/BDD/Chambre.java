@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 
 /**
  *
- * @author Emmanuelle THIROLOIX
+ * @author Emmanuelle THIROLOIX&Léa Blanchard
  */
 public class Chambre implements Table{
 

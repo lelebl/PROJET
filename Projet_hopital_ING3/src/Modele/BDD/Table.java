@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Emmanuelle THIROLOIX
+ * @author Emmanuelle THIROLOIX&Léa Blanchard
  */
 public interface Table {
     

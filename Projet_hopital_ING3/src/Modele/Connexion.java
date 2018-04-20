@@ -8,6 +8,8 @@ package Modele;
  * 
  * Librairies importées
  */
+import Modele.BDD.Hospitalisation;
+import Modele.BDD.Infirmier;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -209,4 +211,121 @@ public class Connexion {
     public void executeUpdate(String requeteMaj) throws SQLException {
         stmt.executeUpdate(requeteMaj);
     }
+    
+    /**
+     * METHODES QUI RETOURNE DES TABLEAUX D'OBJET DES TABLES
+     * @param c connexion
+     * @return objects
+     * @throws java.sql.SQLException
+     */
+    
+    
+    public ArrayList<Hospitalisation> getHospitalisation(Connexion c)throws SQLException{
+        // rÃ©cupÃ©ration de l'ordre de la requete
+        rset = stmt.executeQuery("select * from hospitalisation");
+
+        // rÃ©cupÃ©ration du rÃ©sultat de l'ordre
+        rsetMeta = rset.getMetaData();
+        
+        // calcul du nombre de colonnes du resultat
+        int nbColonne = rsetMeta.getColumnCount();
+        
+        // création du tableau
+        ArrayList<Hospitalisation> hosp=new ArrayList<>();
+        
+        rset.last();
+        int nbr_instance=rset.getRow();
+        rset.first();
+        String code="";
+        int no=0;
+        int no_chambre=0;
+        int lit=0;
+        int n=0;
+        while(rset.next()){
+            if(n==0){
+                rset.first();
+            }
+            for(int i=nbColonne;i>0;i--){//on parcour les colonne
+                if(rsetMeta.getColumnLabel(i).contains("code_service")){
+                    if(rset.getObject(i).toString()!=null){
+                        code=(rset.getObject(i).toString());
+                    }
+                    else code="";
+                }
+                else if(rsetMeta.getColumnLabel(i).contains("numero_malade")){
+                    if(rset.getObject(i).toString()!=null){
+                        no=Integer.parseInt(rset.getObject(i).toString());
+                    }
+                    else no=0;
+                    
+                }
+                else if(rsetMeta.getColumnLabel(i).contains("lit")){
+                    lit=Integer.parseInt(rset.getObject(i).toString());
+                }
+                else if(rsetMeta.getColumnLabel(i).contains("no_chambre")){
+                    if(rset.getObject(i).toString()!=null){
+                        no_chambre=Integer.parseInt(rset.getObject(i).toString());
+                    }
+                    else no_chambre=0;
+                }
+            }
+            hosp.add(new Hospitalisation(no,code,no_chambre,lit,c));
+            n++;
+        }
+        
+        return hosp;
+    }
+    public ArrayList<Infirmier> getInfirmier(Connexion c)throws SQLException{
+        // rÃ©cupÃ©ration de l'ordre de la requete
+        rset = stmt.executeQuery("select * from infirmier");
+
+        // rÃ©cupÃ©ration du rÃ©sultat de l'ordre
+        rsetMeta = rset.getMetaData();
+        
+        // calcul du nombre de colonnes du resultat
+        int nbColonne = rsetMeta.getColumnCount();
+        
+        // création du tableau
+        ArrayList<Infirmier> inf= new ArrayList<>();
+        
+        rset.last();
+        int nbr_instance=rset.getRow();
+        rset.first();
+        Float salaire=0f;
+        String rotation="";
+        String code_service="";
+        int numero=0;
+        int n=0;
+        while(rset.next()){
+            if(n==0){
+                rset.first();
+            }
+            for(int i=nbColonne;i>0;i--){//on parcour les colonne
+                if(rsetMeta.getColumnLabel(i).contains("numero")){
+                    numero=Integer.parseInt(rset.getObject(i).toString());
+                }
+                else if(rsetMeta.getColumnLabel(i).contains("code_service")){
+                    if(rset.getObject(i).toString()!=null){
+                        code_service=(rset.getObject(i).toString());
+                    }
+                    else code_service="";
+                }
+                else if(rsetMeta.getColumnLabel(i).contains("rotation")){
+                    rotation=(rset.getObject(i).toString());
+                }
+                else if(rsetMeta.getColumnLabel(i).contains("salaire")){
+                    salaire=Float.parseFloat(rset.getObject(i).toString());
+                }
+            }
+            inf.add(new Infirmier(numero,code_service,rotation,salaire,c));
+            n++;
+        }
+        
+        return inf;
+    }
+    
+    
+    
+    
+    
 }
