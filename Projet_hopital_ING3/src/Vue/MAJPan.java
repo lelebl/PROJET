@@ -338,7 +338,233 @@ public class MAJPan extends MyPanel{
             }
         }
     }
-    
+    /**
+     * AJOUT 
+     */
+    public void setPaneAjout(){
+        pan.removeAll();
+        
+        valider= new JButton();
+        valider.setBackground(Color.BLUE);
+        valider.setFont(new Font("Times New Roman", Font.BOLD,30));
+        valider.setLocation(pan.getX()+200,pan.getY()+500);
+        valider.setSize(200,50);
+        valider.addActionListener(new ButtonListener());
+        valider.setText(currentType);
+        pan.add(valider);
+        
+        int x1,x2,y1,y2;
+        x1=pan.getX()+50;
+        x2=pan.getX()+350;
+        y1=pan.getY()+200;
+        y2=y1;
+                
+        if(currentTable.equals("chambre")){
+            
+            textAjout=myData.chambres.get(0).textAjout;
+            labelAjout=myData.chambres.get(0).labelAjout;
+            for(int i=0; i<labelAjout.length;i++){
+                labelAjout[i].setLocation(x1,y1);
+                textAjout[i].setLocation(x2,y2);
+                labelAjout[i].setSize(300,25);
+                textAjout[i].setSize(300,25);
+                pan.add(labelAjout[i]);
+                pan.add(textAjout[i]);
+                y1=y1+50;
+                y2=y1;
+            }
+        }
+        else if(currentTable.equals("docteur")){
+            textAjout=myData.docteurs.get(0).textAjout;
+            labelAjout=myData.docteurs.get(0).labelAjout;
+            for(int i=0; i<labelAjout.length;i++){
+                labelAjout[i].setLocation(x1,y1);
+                textAjout[i].setLocation(x2,y2);
+                labelAjout[i].setSize(300,25);
+                textAjout[i].setSize(300,25);
+                pan.add(labelAjout[i]);
+                pan.add(textAjout[i]);
+                y1=y1+50;
+                y2=y1;
+            }
+        }
+        else if(currentTable.equals("employe")){
+            textAjout=myData.employes.get(0).textAjout;
+            labelAjout=myData.employes.get(0).labelAjout;
+            for(int i=0; i<labelAjout.length;i++){
+                labelAjout[i].setLocation(x1,y1);
+                textAjout[i].setLocation(x2,y2);
+                labelAjout[i].setSize(300,25);
+                textAjout[i].setSize(300,25);
+                pan.add(labelAjout[i]);
+                pan.add(textAjout[i]);
+                y1=y1+50;
+                y2=y1;
+            }
+        }
+        else if(currentTable.equals("hospitalisation")){
+            textAjout=myData.hospitalisations.get(0).textAjout;
+            labelAjout=myData.hospitalisations.get(0).labelAjout;
+            for(int i=0; i<labelAjout.length;i++){
+                labelAjout[i].setLocation(x1,y1);
+                textAjout[i].setLocation(x2,y2);
+                labelAjout[i].setSize(300,25);
+                textAjout[i].setSize(300,25);
+                pan.add(labelAjout[i]);
+                pan.add(textAjout[i]);
+                y1=y1+50;
+                y2=y1;
+            }
+        }
+        else if(currentTable.equals("infirmier")){
+            textAjout=myData.infirmiers.get(0).textAjout;
+            labelAjout=myData.infirmiers.get(0).labelAjout;
+            for(int i=0; i<labelAjout.length;i++){
+                labelAjout[i].setLocation(x1,y1);
+                textAjout[i].setLocation(x2,y2);
+                labelAjout[i].setSize(300,25);
+                textAjout[i].setSize(300,25);
+                pan.add(labelAjout[i]);
+                pan.add(textAjout[i]);
+                y1=y1+50;
+                y2=y1;
+            }
+        }
+        else if(currentTable.equals("malade")){
+            textAjout=myData.malades.get(0).textAjout;
+            labelAjout=myData.malades.get(0).labelAjout;
+            for(int i=0; i<labelAjout.length;i++){
+                labelAjout[i].setLocation(x1,y1);
+                textAjout[i].setLocation(x2,y2);
+                labelAjout[i].setSize(300,25);
+                textAjout[i].setSize(300,25);
+                pan.add(labelAjout[i]);
+                pan.add(textAjout[i]);
+                y1=y1+50;
+                y2=y1;
+            }
+        }
+        else if(currentTable.equals("maladie")){
+            textAjout=myData.maladies.get(0).textAjout;
+            labelAjout=myData.maladies.get(0).labelAjout;
+            for(int i=0; i<labelAjout.length;i++){
+                labelAjout[i].setLocation(x1,y1);
+                textAjout[i].setLocation(x2,y2);
+                labelAjout[i].setSize(300,25);
+                textAjout[i].setSize(300,25);
+                pan.add(labelAjout[i]);
+                pan.add(textAjout[i]);
+                y1=y1+50;
+                y2=y1;
+            }
+        }
+        else if(currentTable.equals("service")){
+            textAjout=myData.services.get(0).textAjout;
+            labelAjout=myData.services.get(0).labelAjout;
+            for(int i=0; i<labelAjout.length;i++){
+                labelAjout[i].setLocation(x1,y1);
+                textAjout[i].setLocation(x2,y2);
+                labelAjout[i].setSize(300,25);
+                textAjout[i].setSize(300,25);
+                pan.add(labelAjout[i]);
+                pan.add(textAjout[i]);
+                y1=y1+50;
+                y2=y1;
+            }
+        }
+        else if(currentTable.equals("soigne")){
+            textAjout=myData.soignes.get(0).textAjout;
+            labelAjout=myData.soignes.get(0).labelAjout;
+            for(int i=0; i<labelAjout.length;i++){
+                labelAjout[i].setLocation(x1,y1);
+                textAjout[i].setLocation(x2,y2);
+                labelAjout[i].setSize(300,25);
+                textAjout[i].setSize(300,25);
+                pan.add(labelAjout[i]);
+                pan.add(textAjout[i]);
+                y1=y1+50;
+                y2=y1;
+            }
+        }
+        this.repaint();
+    }
+    public void ajout() throws SQLException {
+        boolean champs_complets=true;
+        // on vérifie que tous les champs sont completés;
+        for(int i=0; i<textAjout.length;i++){
+            if(textAjout[i].getText().equals("")){
+                champs_complets=false;
+            }
+        }
+        //Si tous les champs sont complet:
+        if(champs_complets){
+            /**
+             * AJOUT DANS LA BDD
+             */
+            String requete="INSERT INTO `hopital`.`"+currentTable+"` (`";
+            for(int i=0; i<labelAjout.length;i++){//on parcourt les labels
+                requete=requete+labelAjout[i].getText()+"`";
+                if(i!=textAjout.length-1){
+                    requete=requete+", `";
+                }
+            }
+            requete=requete+") VALUES ('";
+            for(int i=0; i<textAjout.length;i++){//on parcourt les entrées de texte
+                requete=requete+textAjout[i].getText()+"'";
+                if(i!=textAjout.length-1){
+                    requete=requete+", '";
+                }
+            }
+            requete=requete+");";
+            System.out.println("Vous demandez: "+requete);
+            try{
+                myData.conn.executeUpdate(requete);
+                errorInfo.showMessageDialog(null,"Requete: "+requete, "Ajout effectué", JOptionPane.INFORMATION_MESSAGE);
+            }catch(SQLException e){
+                errorInfo.showMessageDialog(null,"Erreur: "+e, "Erreur d'ajout", JOptionPane.INFORMATION_MESSAGE);
+                System.out.println("Impossible de faire l'ajout: "+ e);
+            }
+
+
+            if( currentTable!=null) { 
+
+                switch (currentTable) {
+                    case "chambre":
+                        myData.chambres=myData.conn.getChambre(myData.conn);
+                        break;
+                    case "docteur":
+                        myData.docteurs=myData.conn.getDocteur(myData.conn);
+                        break;
+                    case "employe":
+                        myData.employes=myData.conn.getEmploye(myData.conn);
+                        break;
+                    case "hospitalisation":
+                        myData.hospitalisations=myData.conn.getHospitalisation(myData.conn);
+                        break;
+                    case "infirmier":
+                        myData.infirmiers=myData.conn.getInfirmier(myData.conn);
+                        break;
+                    case "malade":
+                        myData.malades=myData.conn.getMalade(myData.conn);
+                        break;
+                    case "maladie":
+                        myData.maladies=myData.conn.getMaladie(myData.conn);
+                        break;
+                    case "service":
+                        myData.services=myData.conn.getService(myData.conn);
+                        break;
+                    case "soigne":
+                        myData.soignes=myData.conn.getSoigne(myData.conn);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        else{
+            errorInfo.showMessageDialog(null,"Veuillez compléter TOUS les champs", "Erreur d'ajout", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
     
     
 }
