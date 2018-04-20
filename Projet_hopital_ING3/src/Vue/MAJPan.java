@@ -9,6 +9,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -565,6 +566,362 @@ public class MAJPan extends MyPanel{
             errorInfo.showMessageDialog(null,"Veuillez compléter TOUS les champs", "Erreur d'ajout", JOptionPane.INFORMATION_MESSAGE);
         }
     }
+    /**
+     * MODIFIER
+     */
+    public void setPaneModifier(){
+        pan.removeAll();
+        
+        // AJOUT DE LA SELECTION DE L4OBJECT A MODIFIER
+        Object[] liste= new Object[0];
+        if(currentTable.equals("chambre")){
+            liste= new Object[myData.chambres.size()];
+            for(int i=0;i<myData.chambres.size();i++){
+                liste[i]=myData.chambres.get(i).toString();
+            }
+        }
+        else if(currentTable.equals("docteur")){
+            liste= new Object[myData.docteurs.size()];
+            for(int i=0;i<myData.docteurs.size();i++){
+                liste[i]=myData.docteurs.get(i).toString();
+            }
+        }
+        else if(currentTable.equals("employe")){
+            liste= new Object[myData.employes.size()];
+            for(int i=0;i<myData.employes.size();i++){
+                liste[i]=myData.employes.get(i).toString();
+            }
+        }
+        else if(currentTable.equals("hospitalisation")){
+            liste= new Object[myData.hospitalisations.size()];
+            for(int i=0;i<myData.hospitalisations.size();i++){
+                liste[i]=myData.hospitalisations.get(i).toString();
+            }
+        }
+        else if(currentTable.equals("infirmier")){
+            liste= new Object[myData.infirmiers.size()];
+            for(int i=0;i<myData.infirmiers.size();i++){
+                liste[i]=myData.infirmiers.get(i).toString();
+            }
+        }
+        else if(currentTable.equals("malade")){
+            liste= new Object[myData.malades.size()];
+           for(int i=0;i<myData.malades.size();i++){
+                liste[i]=myData.malades.get(i).toString();
+            }
+        }
+        else if(currentTable.equals("maladie")){
+            liste= new Object[myData.maladies.size()];
+            for(int i=0;i<myData.maladies.size();i++){
+                liste[i]=myData.maladies.get(i).toString();
+            }
+        }
+        else if(currentTable.equals("service")){
+            liste= new Object[myData.services.size()];
+            for(int i=0;i<myData.services.size();i++){
+                liste[i]=myData.services.get(i).toString();
+            }
+        }
+        else if(currentTable.equals("soigne")){
+            liste= new Object[myData.soignes.size()];
+            for(int i=0;i<myData.soignes.size();i++){
+                liste[i]=myData.soignes.get(i).toString();
+            }
+        }
+        listSupp= new JComboBox(liste);
+        listSupp.setLocation(pan.getX(), pan.getY()+50);
+        listSupp.setFont(new Font("Times New Roman", Font.BOLD,20));
+        listSupp.setSize(new Dimension(800, 40));
+        listSupp.setBackground(new Color(255,255,255));
+        pan.add(listSupp);
+        
+        // AJOUT DES CHAMPS A MODIFIER
+        int x1,x2,y1,y2;
+        x1=pan.getX()+50;
+        x2=pan.getX()+350;
+        y1=pan.getY()+200;
+        y2=y1;
+                
+        if(currentTable.equals("chambre")){
+            
+            textAjout=myData.chambres.get(0).textAjout;
+            labelAjout=myData.chambres.get(0).labelAjout;
+            for(int i=0; i<labelAjout.length;i++){
+                labelAjout[i].setLocation(x1,y1);
+                textAjout[i].setLocation(x2,y2);
+                labelAjout[i].setSize(300,25);
+                textAjout[i].setSize(300,25);
+                pan.add(labelAjout[i]);
+                pan.add(textAjout[i]);
+                y1=y1+50;
+                y2=y1;
+            }
+        }
+        else if(currentTable.equals("docteur")){
+            textAjout=myData.docteurs.get(0).textAjout;
+            labelAjout=myData.docteurs.get(0).labelAjout;
+            for(int i=0; i<labelAjout.length;i++){
+                labelAjout[i].setLocation(x1,y1);
+                textAjout[i].setLocation(x2,y2);
+                labelAjout[i].setSize(300,25);
+                textAjout[i].setSize(300,25);
+                pan.add(labelAjout[i]);
+                pan.add(textAjout[i]);
+                y1=y1+50;
+                y2=y1;
+            }
+        }
+        else if(currentTable.equals("employe")){
+            textAjout=myData.employes.get(0).textAjout;
+            labelAjout=myData.employes.get(0).labelAjout;
+            for(int i=0; i<labelAjout.length;i++){
+                labelAjout[i].setLocation(x1,y1);
+                textAjout[i].setLocation(x2,y2);
+                labelAjout[i].setSize(300,25);
+                textAjout[i].setSize(300,25);
+                pan.add(labelAjout[i]);
+                pan.add(textAjout[i]);
+                y1=y1+50;
+                y2=y1;
+            }
+        }
+        else if(currentTable.equals("hospitalisation")){
+            textAjout=myData.hospitalisations.get(0).textAjout;
+            labelAjout=myData.hospitalisations.get(0).labelAjout;
+            for(int i=0; i<labelAjout.length;i++){
+                labelAjout[i].setLocation(x1,y1);
+                textAjout[i].setLocation(x2,y2);
+                labelAjout[i].setSize(300,25);
+                textAjout[i].setSize(300,25);
+                pan.add(labelAjout[i]);
+                pan.add(textAjout[i]);
+                y1=y1+50;
+                y2=y1;
+            }
+        }
+        else if(currentTable.equals("infirmier")){
+            textAjout=myData.infirmiers.get(0).textAjout;
+            labelAjout=myData.infirmiers.get(0).labelAjout;
+            for(int i=0; i<labelAjout.length;i++){
+                labelAjout[i].setLocation(x1,y1);
+                textAjout[i].setLocation(x2,y2);
+                labelAjout[i].setSize(300,25);
+                textAjout[i].setSize(300,25);
+                pan.add(labelAjout[i]);
+                pan.add(textAjout[i]);
+                y1=y1+50;
+                y2=y1;
+            }
+        }
+        else if(currentTable.equals("malade")){
+            textAjout=myData.malades.get(0).textAjout;
+            labelAjout=myData.malades.get(0).labelAjout;
+            for(int i=0; i<labelAjout.length;i++){
+                labelAjout[i].setLocation(x1,y1);
+                textAjout[i].setLocation(x2,y2);
+                labelAjout[i].setSize(300,25);
+                textAjout[i].setSize(300,25);
+                pan.add(labelAjout[i]);
+                pan.add(textAjout[i]);
+                y1=y1+50;
+                y2=y1;
+            }
+        }
+        else if(currentTable.equals("maladie")){
+            textAjout=myData.maladies.get(0).textAjout;
+            labelAjout=myData.maladies.get(0).labelAjout;
+            for(int i=0; i<labelAjout.length;i++){
+                labelAjout[i].setLocation(x1,y1);
+                textAjout[i].setLocation(x2,y2);
+                labelAjout[i].setSize(300,25);
+                textAjout[i].setSize(300,25);
+                pan.add(labelAjout[i]);
+                pan.add(textAjout[i]);
+                y1=y1+50;
+                y2=y1;
+            }
+        }
+        else if(currentTable.equals("service")){
+            textAjout=myData.services.get(0).textAjout;
+            labelAjout=myData.services.get(0).labelAjout;
+            for(int i=0; i<labelAjout.length;i++){
+                labelAjout[i].setLocation(x1,y1);
+                textAjout[i].setLocation(x2,y2);
+                labelAjout[i].setSize(300,25);
+                textAjout[i].setSize(300,25);
+                pan.add(labelAjout[i]);
+                pan.add(textAjout[i]);
+                y1=y1+50;
+                y2=y1;
+            }
+        }
+        else if(currentTable.equals("soigne")){
+            textAjout=myData.soignes.get(0).textAjout;
+            labelAjout=myData.soignes.get(0).labelAjout;
+            for(int i=0; i<labelAjout.length;i++){
+                labelAjout[i].setLocation(x1,y1);
+                textAjout[i].setLocation(x2,y2);
+                labelAjout[i].setSize(300,25);
+                textAjout[i].setSize(300,25);
+                pan.add(labelAjout[i]);
+                pan.add(textAjout[i]);
+                y1=y1+50;
+                y2=y1;
+            }
+        }
+        
+        // AJOUT DU BOUTON DE VALIDATION
+        valider= new JButton();
+        valider.setBackground(Color.BLUE);
+        valider.setFont(new Font("Times New Roman", Font.BOLD,30));
+        valider.setLocation(pan.getX()+300,pan.getY()+600);
+        valider.setSize(200,50);
+        valider.addActionListener(new ButtonListener());
+        valider.setText(currentType);
+        pan.add(valider);
+        
+        this.repaint();
+    }
+    public void modifier(int indice) throws SQLException{
+        /**
+         * Récupération des données
+         */
+        ArrayList <String> attributs=new ArrayList<>();
+        ArrayList <String> new_attributs=new ArrayList<>();
+        for(int i=0; i<textAjout.length;i++){//on parcourt les zones de saisie
+            if(textAjout[i].getText().equals("")){
+                
+            }
+            else{
+                attributs.add(labelAjout[i].getText());
+                new_attributs.add(textAjout[i].getText());
+            }
+        }
+        
+       /**
+        * Modification dans la base de donnée
+        */
+       if(currentTable.equals("chambre")){
+            boolean ok=myData.chambres.get(indice).modifier(attributs,new_attributs);
+            if(ok){
+                errorInfo.showMessageDialog(null,"Modification de la chambre effectuée", "Modification", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                errorInfo.showMessageDialog(null,"Modification de la chambre échouée", "Modification", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        else if(currentTable.equals("docteur")){
+            boolean ok=myData.docteurs.get(indice).modifier(attributs,new_attributs);
+            if(ok){
+                errorInfo.showMessageDialog(null,"Suppression du docteur effectuée", "Modification", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                errorInfo.showMessageDialog(null,"Modification du docteur échouée", "Modification", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        else if(currentTable.equals("employe")){
+            boolean ok=myData.employes.get(indice).modifier(attributs,new_attributs);
+            if(ok){
+                errorInfo.showMessageDialog(null,"Modification de l'employé effectuée", "Modification", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                errorInfo.showMessageDialog(null,"Suppression de l'employé échouée", "Suppression", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        else if(currentTable.equals("hospitalisation")){
+            boolean ok=myData.hospitalisations.get(indice).modifier(attributs,new_attributs);
+            if(ok){
+                errorInfo.showMessageDialog(null,"Modification de l'hospitalisation effectuée", "Modification", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                errorInfo.showMessageDialog(null,"Modification de l'hospitalisation échouée", "Modification", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        else if(currentTable.equals("infirmier")){
+            boolean ok=myData.infirmiers.get(indice).modifier(attributs,new_attributs);
+            if(ok){
+                errorInfo.showMessageDialog(null,"Modification de l'infirmier effectuée", "Modification", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                errorInfo.showMessageDialog(null,"Modification de l'infirmier échouée", "Modification", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        else if(currentTable.equals("malade")){
+            boolean ok=myData.malades.get(indice).modifier(attributs,new_attributs);
+            if(ok){
+                errorInfo.showMessageDialog(null,"Modification du malade effectuée", "Modification", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                errorInfo.showMessageDialog(null,"Modification du malade échouée", "Modification", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        else if(currentTable.equals("maladie")){
+            boolean ok=myData.maladies.get(indice).modifier(attributs,new_attributs);
+            if(ok){
+                errorInfo.showMessageDialog(null,"Modification de la maladie effectuée", "Modification", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                errorInfo.showMessageDialog(null,"Modification de la maladie échouée", "Modification", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        else if(currentTable.equals("service")){
+            boolean ok=myData.services.get(indice).modifier(attributs,new_attributs);
+            if(ok){
+                errorInfo.showMessageDialog(null,"Modification du service effectuée", "Modification", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                errorInfo.showMessageDialog(null,"Modification du service échouée", "Modification", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        else if(currentTable.equals("soigne")){
+            boolean ok=myData.soignes.get(indice).modifier(attributs,new_attributs);
+            if(ok){
+                errorInfo.showMessageDialog(null,"Modification du soin effectuée", "Modification", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                errorInfo.showMessageDialog(null,"Modification du soin échouée", "Modification", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        
+        /**
+         * Modification dans les tables
+         */
+        if( currentTable!=null) { 
+
+                switch (currentTable) {
+                    case "chambre":
+                        myData.chambres=myData.conn.getChambre(myData.conn);
+                        break;
+                    case "docteur":
+                        myData.docteurs=myData.conn.getDocteur(myData.conn);
+                        break;
+                    case "employe":
+                        myData.employes=myData.conn.getEmploye(myData.conn);
+                        break;
+                    case "hospitalisation":
+                        myData.hospitalisations=myData.conn.getHospitalisation(myData.conn);
+                        break;
+                    case "infirmier":
+                        myData.infirmiers=myData.conn.getInfirmier(myData.conn);
+                        break;
+                    case "malade":
+                        myData.malades=myData.conn.getMalade(myData.conn);
+                        break;
+                    case "maladie":
+                        myData.maladies=myData.conn.getMaladie(myData.conn);
+                        break;
+                    case "service":
+                        myData.services=myData.conn.getService(myData.conn);
+                        break;
+                    case "soigne":
+                        myData.soignes=myData.conn.getSoigne(myData.conn);
+                        break;
+                    default:
+                        break;
+                }
+            }
+    }
+    
     
     
 }
