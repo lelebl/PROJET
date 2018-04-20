@@ -77,6 +77,45 @@ public class MAJPan extends MyPanel{
         myData=null; //car pas encore de connexion
         this.setVisible(true);
     }
+    /**
+     * SETTERS
+     */
+    public void setBoutons(){
+        
+        titre=new JLabel();
+        titre.setSize(500, 38);
+        titre.setLocation(menuTable.getX()+75,menuTable.getY()+30);
+        titre.setFont(new Font("Times New Roman", Font.BOLD,38));
+        titre.setForeground(new Color(3,34,76));
+        titre.setText("");
+        menuTable.add(titre);
+        
+        boutons= new JButton[myData.getNbrTables()];
+        int posx=menuTable.getX()+ 70;
+        int posy=menuTable.getY()+100;
+        
+        TableListener mylistener=new TableListener();
+        for (int i=0;i<myData.getNbrTables();i++){ //on parcourt les différentes tables de la BDD
+            boutons[i]= new JButton(myData.getNomTable()[i]);
+            boutons[i].setBackground(new Color(255,255,255));
+            boutons[i].setForeground(new Color(3,34,76));
+            boutons[i].setFont(new Font("Times New Roman", Font.BOLD,20));
+            boutons[i].setSize(200,50);
+            boutons[i].setLocation(posx,posy);
+            posy=posy+70;
+            boutons[i].addActionListener(mylistener);
+            menuTable.add(boutons[i]);
+        }
+        
+    }
+    public void setData(Database a){
+        myData=a;
+        this.setBoutons();
+    }
+    public void setTitle(String t){
+        currentType=t;
+        titre.setText(currentType);
+    }
     
     
     
