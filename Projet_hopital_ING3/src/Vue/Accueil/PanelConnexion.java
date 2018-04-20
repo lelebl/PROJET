@@ -16,7 +16,7 @@ import java.awt.event.ActionListener;
 
 /**
  *
- * @author Emmanuelle THIROLOIX
+ * @author Emmanuelle THIROLOIX&Léa Blanchard
  */
 public class PanelConnexion extends JPanel{
     /**
