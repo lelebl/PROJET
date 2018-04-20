@@ -8,6 +8,7 @@ package Modele;
  * 
  * Librairies importées
  */
+import Modele.BDD.Chambre;
 import Modele.BDD.Hospitalisation;
 import Modele.BDD.Infirmier;
 import Modele.BDD.Service;
@@ -420,6 +421,62 @@ public class Connexion {
         }
         
         return soi;
+    }
+    public ArrayList<Chambre> getChambre(Connexion c)throws SQLException{
+        // rÃ©cupÃ©ration de l'ordre de la requete
+        rset = stmt.executeQuery("select * from chambre");
+
+        // rÃ©cupÃ©ration du rÃ©sultat de l'ordre
+        rsetMeta = rset.getMetaData();
+        
+        // calcul du nombre de colonnes du resultat
+        int nbColonne = rsetMeta.getColumnCount();
+        
+        // création du tableau
+        ArrayList<Chambre> chambres = new ArrayList<>();
+        
+        rset.last();
+        int nbr_instance=rset.getRow();
+        String code="";
+        rset.first();
+        int no=0;
+        int surv=0;
+        int lits=0;
+        int n=0;
+        while(rset.next()){
+            if(n==0){
+                rset.first();
+            }
+            for(int i=nbColonne;i>0;i--){//on parcour les colonne
+                if(rsetMeta.getColumnLabel(i).contains("code_service")){
+                    if(rset.getObject(i).toString()!=null){
+                        code=(rset.getObject(i).toString());
+                    }
+                    else code="";
+                }
+                else if(rsetMeta.getColumnLabel(i).contains("no_chambre")){
+                    if(rset.getObject(i).toString()!=null){
+                        no=Integer.parseInt(rset.getObject(i).toString());
+                    }
+                    else no=0;
+                    
+                }
+                else if(rsetMeta.getColumnLabel(i).contains("surveillant")){
+                    if(rset.getObject(i).toString()!=null){
+                        surv=Integer.parseInt(rset.getObject(i).toString());
+                    }
+                    else surv=0;
+                    
+                }
+                else if(rsetMeta.getColumnLabel(i).contains("nb_lits")){
+                    lits=Integer.parseInt(rset.getObject(i).toString());
+                }
+            }
+            chambres.add(new Chambre(code,no,surv,lits,c));
+            n++;
+        }
+        
+        return chambres;
     }
     
     
