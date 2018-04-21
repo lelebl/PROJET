@@ -1,7 +1,6 @@
 package Vue;
 
 import Modele.BDD.Database;
-import Vue.Reporting.ReportingPan;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
