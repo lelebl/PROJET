@@ -3,6 +3,8 @@ package Vue;
 
 import Modele.Connexion;
 import Vue.Accueil.AccueilPan;
+import Vue.Reporting.ReportingPan; 
+import Modele.BDD.Database;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -12,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
@@ -21,15 +24,18 @@ public class Fenetre extends JFrame {
      */
     private final int taillex; 
     private final int tailley;
-    private int nbrPan;
-    private Connexion c; 
+    private final int nbrPan;
+    private Database myDatabase; 
     
     // MENU
     private JMenuBar menuBar;
-    private JMenuItem maj;
-    private JMenuItem rech_info;
-    private JMenuItem reporting;
-    private JMenuItem accueil;
+    private JMenu maj;
+    private JMenuItem maj_supprimer;
+    private JMenuItem maj_ajouter;
+    private JMenuItem maj_modifier;
+    private JMenu rech_info;
+    private JMenu reporting;
+    private JMenu accueil;
     
     // Panels:
     private MyPanel[] panels;
@@ -38,6 +44,7 @@ public class Fenetre extends JFrame {
     private ReportingPan reportPan;
     private RecherchePan recherchePan;
     
+    /**
     /**
      * CONSTRUCTORS
      */
