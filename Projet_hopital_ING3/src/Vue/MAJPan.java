@@ -32,7 +32,7 @@ public class MAJPan extends MyPanel{
     private Database myData; //notre connexion a la BDD
     private JButton boutons[]; // liste des tables de la BDD
     private JPanel menuTable;
-    private JPanel pan;
+    JPanel pan;
     private JLabel titre;
     
     private JComboBox listSupp;

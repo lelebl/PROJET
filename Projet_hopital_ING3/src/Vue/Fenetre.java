@@ -25,7 +25,7 @@ public class Fenetre extends JFrame {
     private final int taillex; 
     private final int tailley;
     private final int nbrPan;
-    private Database myDatabase; 
+    private Database myData; 
     
     // MENU
     private JMenuBar menuBar;
@@ -61,7 +61,7 @@ public class Fenetre extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //fermeture de la fenêtre en appuyant sur la croix
         this.setResizable(true); //pour permettre a l'utilisateur de redimensionner
         this.setLocationRelativeTo(null);
-        this.c=null;
+        this.myData=null;
         
         // On initialise le menu
         this.initMenu();
@@ -94,24 +94,27 @@ public class Fenetre extends JFrame {
     public ReportingPan getReport(){
         return reportPan;
     }
-    public Connexion getC(){
-        return c;
+    public Database getMyData(){
+        return myData;
     }
     
     /**
      * SETTERS
      */
-    public void setC(Connexion a){
-        c=a;
-        reportPan.setC(a);
+   public void setData(Database a){
+        myData=a;
+        if(myData!=null){
+            //On initialise les connexions des différents panels
+            majPan.setData(a);
+            recherchePan.setData(a);
+            reportPan.setData(a);
+        }
     }
-    public void setPan(MyPanel p){
+   
+    public void setPan(MyPanel p, String type){
         if(p==panels[0]){ //retour accueil
-            c=null;
-            maj.setBackground(Color.white);
-            reporting.setBackground(Color.white);
-            rech_info.setBackground(Color.white);
-            accueil.setBackground(Color.DARK_GRAY);
+            majPan.pan.removeAll();
+            myData=null;
             accueilPan.InitPanCo();
             reportPan.setVisible(false);
             majPan.setVisible(false);
@@ -121,34 +124,30 @@ public class Fenetre extends JFrame {
         }
         else if(p==panels[1])// Mise a jour
         {
-            reporting.setBackground(Color.white);
-            rech_info.setBackground(Color.white);
-            accueil.setBackground(Color.white);
-            maj.setBackground(Color.DARK_GRAY);
+            majPan.pan.removeAll();
+            System.out.println("MAJ PAN");
             reportPan.setVisible(false);
             majPan.setVisible(true);
             recherchePan.setVisible(false);
             accueilPan.setVisible(false);
+            majPan.setTitle(type);
             this.setContentPane(majPan);
         }
         else if(p==panels[2])//Reporting
         {
-            maj.setBackground(Color.white);
-            rech_info.setBackground(Color.white);
-            accueil.setBackground(Color.white);
-            reporting.setBackground(Color.DARK_GRAY);
+            majPan.pan.removeAll();
+            System.out.println("REPORTING PAN");
             reportPan.setVisible(true);
             majPan.setVisible(false);
             recherchePan.setVisible(false);
             accueilPan.setVisible(false);
+            reportPan.initCharts();
             this.setContentPane(reportPan);
         }
         else //Recherche
         {
-            maj.setBackground(Color.white);
-            reporting.setBackground(Color.white);
-            accueil.setBackground(Color.white);
-            rech_info.setBackground(Color.DARK_GRAY);
+            majPan.pan.removeAll();
+            System.out.println("SEARCH PAN");
             reportPan.setVisible(false);
             majPan.setVisible(false);
             recherchePan.setVisible(true);
@@ -162,17 +161,29 @@ public class Fenetre extends JFrame {
     */
     public void initMenu(){
         menuBar = new JMenuBar();
-	maj = new JMenuItem("Mise à jour");
-        rech_info = new JMenuItem("Recherche d'information");
-        reporting = new JMenuItem("Reporting");
-        accueil = new JMenuItem("Accueil");
+	maj = new JMenu("Mise à jour");
+        maj_ajouter = new JMenuItem("Ajouter");
+        maj_modifier = new JMenuItem("Modifier");
+        maj_supprimer = new JMenuItem("Supprimer");
+        rech_info = new JMenu("Recherche d'information");
+        reporting = new JMenu("Reporting");
+        accueil = new JMenu("Accueil");
+        
+        
             //defined the action
-        accueil.addMouseListener(new MenuListener());
-        maj.addMouseListener(new MenuListener());
-        rech_info.addMouseListener(new MenuListener());
-        reporting.addMouseListener(new MenuListener());
+       accueil.addMouseListener(new BarMenuListener());
+        maj.addMouseListener(new BarMenuListener());
+        maj_ajouter.addActionListener(new SousMenuListener());
+        maj_supprimer.addActionListener(new SousMenuListener());
+        maj_modifier.addActionListener(new SousMenuListener());
+        rech_info.addMouseListener(new BarMenuListener());
+        reporting.addMouseListener(new BarMenuListener());
+        
         
             //add it to my menubar
+        maj.add(maj_ajouter);
+        maj.add(maj_supprimer);
+        maj.add(maj_modifier);
         menuBar.add(accueil);
         menuBar.add(maj);
         menuBar.add(rech_info);
@@ -192,17 +203,67 @@ public class Fenetre extends JFrame {
         this.setJMenuBar(menuBar);
     }
 
+   class SousMenuListener implements ActionListener{
+
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+           if(e.getSource()==maj_supprimer && myData!=null){
+               System.out.println("supp");
+                setPan(majPan,"Supprimer");
+            }
+            else if(e.getSource()==maj_ajouter && myData!=null){
+                setPan(majPan,"Ajouter");
+            }
+            else if(e.getSource()==maj_modifier && myData!=null){
+                setPan(majPan,"Modifier");
+            }
+        }
+        
+    }
+    class BarMenuListener implements MouseListener{
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if(e.getSource()==reporting && myData!=null){
+                setPan(reportPan,"");
+            }
+            else if(e.getSource()==rech_info && myData!=null){
+                setPan(recherchePan,"");
+            }
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
     class MenuListener implements MouseListener{
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            if(e.getSource()==maj && c!=null){
+            if(e.getSource()==maj && myData!=null){
                 setPan(majPan);
             }
-            else if(e.getSource()==reporting && c!=null){
+            else if(e.getSource()==reporting && myData!=null){
                 setPan(reportPan);
             }
-            else if(e.getSource()==rech_info && c!=null){
+            else if(e.getSource()==rech_info && myData!=null){
                 setPan(recherchePan);
             }
             else if(e.getSource()==accueil){
@@ -221,17 +282,17 @@ public class Fenetre extends JFrame {
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            if(e.getSource()==maj && c!=null){
+            if(e.getSource()==maj && myData!=null){
                 if(getContentPane()!=majPan){
                 maj.setBackground(Color.GRAY);
                 }
             }
-            else if(e.getSource()==reporting && c!=null){
+            else if(e.getSource()==reporting && myData!=null){
                 if(getContentPane()!=reportPan){
                 reporting.setBackground(Color.GRAY);
                 }
             }
-            else if(e.getSource()==rech_info && c!=null){
+            else if(e.getSource()==rech_info && myData!=null){
                 if(getContentPane()!=recherchePan){
                 rech_info.setBackground(Color.GRAY);
                 }
@@ -245,17 +306,17 @@ public class Fenetre extends JFrame {
 
         @Override
         public void mouseExited(MouseEvent e) {
-            if(e.getSource()==maj && c!=null){
+            if(e.getSource()==maj && myData!=null){
                 if(getContentPane()!=majPan){
                     maj.setBackground(Color.white);
                 }
             }
-            else if(e.getSource()==reporting && c!=null){
+            else if(e.getSource()==reporting && myData!=null){
                 if(getContentPane()!=reportPan){
                     reporting.setBackground(Color.white);
                 }
             }
-            else if(e.getSource()==rech_info && c!=null){
+            else if(e.getSource()==rech_info && myData!=null){
                 if(getContentPane()!=recherchePan){
                     rech_info.setBackground(Color.white);
                 }
@@ -266,6 +327,22 @@ public class Fenetre extends JFrame {
                 }
             }
         }
+
+        private void setPan(RecherchePan recherchePan) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        private void setPan(ReportingPan reportPan) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        private void setPan(MAJPan majPan) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        private void setPan(AccueilPan accueilPan) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }}}}
         
-    }
-}
+   
+    
